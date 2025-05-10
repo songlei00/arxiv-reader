@@ -9,10 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: set up python
-      uses: actions/setup-python
-      with:
-        python-version: '3.9'
     - name: run
       run: |
         export API_KEY=${{ secrets.API_KEY }}
