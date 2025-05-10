@@ -1,0 +1,26 @@
+name: arxiv-reader
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # 8:00 AM
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: set up python
+      uses: actions/setup-python
+      with:
+        python-version: '3.9'
+    - name: run
+      run: |
+        export API_KEY=${{ secrets.API_KEY }}
+        export BASE_URL=${{ secrets.BASE_URL }}
+        export MODEL_NAME="${{ secrets.MODEL_NAME }}"
+        export SENDER="${{ secrets.SENDER }}"
+        export RECEIVERS="${{ secrets.RECEIVERS }}"
+        export AUTH_CODE="${{ secrets.AUTH_CODE }}"
+        export CATEGORIES="${{ vars.CATEGORIES }}"
+        export KEYWORDS="${{ vars.KEYWORDS }}"
+        python main.py
