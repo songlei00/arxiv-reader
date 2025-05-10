@@ -9,9 +9,8 @@ from email.utils import formataddr
 
 import arxivscraper as ax
 import requests
-from tqdm import tqdm
 
-SMOKE_TEST = True
+SMOKE_TEST = eval(os.getenv('SMOKE_TEST'))
 API_KEY = os.getenv('API_KEY')
 BASE_URL = os.getenv('BASE_URL')
 MODEL_NAME = os.getenv('MODEL_NAME')
@@ -143,7 +142,7 @@ def summarize_papers(papers):
             f"-Abstract: {paper['abstract']}\n\n"
         )
     summaries = []
-    for i in tqdm(range(len(formated_papers))):
+    for i in range(len(formated_papers)):
         formated_paper, paper = formated_papers[i], papers[i]
         summary = model.complete(prompt + formated_paper)
         summary = remove_think_content(summary).strip() + '<br>\n'
@@ -153,6 +152,8 @@ def summarize_papers(papers):
             '<b>AlphaXiv:</b> ' + paper['url'].replace('arxiv', 'alphaxiv') + '<br>\n'
         )
         summaries.append(summary + detail)
+        if (i + 1) % 10 == 0:
+            print(f'summarize {i+1}/{len(formated_papers)} papers.')
     return summaries
 
 

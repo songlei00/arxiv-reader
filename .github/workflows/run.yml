@@ -20,4 +20,5 @@ jobs:
         export AUTH_CODE="${{ secrets.AUTH_CODE }}"
         export CATEGORIES="${{ vars.CATEGORIES }}"
         export KEYWORDS="${{ vars.KEYWORDS }}"
+        export SMOKE_TEST="${{ vars.SMOKE_TEST }}"
         python main.py
